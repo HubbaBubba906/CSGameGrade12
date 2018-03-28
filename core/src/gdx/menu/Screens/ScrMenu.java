@@ -14,7 +14,7 @@ import gdx.common.*;
 
 public class ScrMenu implements Screen, InputProcessor {
 
-    Button btnScratch;
+    Button btnScratch, btnBert;
     GameMenu gamMenu;
     Texture txButtonP, txButtonT;
     OrthographicCamera oc;
@@ -30,7 +30,8 @@ public class ScrMenu implements Screen, InputProcessor {
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
         batch = new SpriteBatch();
-        btnScratch = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "ScratchBut.png ");
+        btnScratch = new Button(100, 50, 0, Gdx.graphics.getHeight() - 100, "ScratchBut.png ");
+        btnBert = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "BertBut.png ");
         Gdx.input.setInputProcessor(this);
     }
 
@@ -41,6 +42,7 @@ public class ScrMenu implements Screen, InputProcessor {
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
         btnScratch.draw(batch);
+        btnBert.draw(batch);
         batch.end();
     }
 
@@ -86,6 +88,10 @@ public class ScrMenu implements Screen, InputProcessor {
             if (isHit(screenX, screenY, btnScratch)) {
                 System.out.println("Scratch");
                 gamMenu.updateState(1);
+            } 
+            else if (isHit(screenX, screenY, btnBert)) {
+                System.out.println("bert");
+                gamMenu.updateState(20);
             }
         }
         return false;

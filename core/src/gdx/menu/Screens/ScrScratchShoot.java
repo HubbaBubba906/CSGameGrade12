@@ -18,12 +18,9 @@ import gdx.menu.*;
 import gdx.common.*;
 
 public class ScrScratchShoot implements Screen, InputProcessor {
-
-    /*
--------------------------------------------------------------------------------------------------------------------------------------------------------
-This Scratch is based on creating movement, working gravity and limited movement. Limited to each turn, once out you cant move.
--------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
+/*=========================================================================================================================================================
+    This scratch is based on making bullets explode on contact with the ground level.
+ =========================================================================================================================================================*/
     Button btnMenu;
     Shot SprBsc;
     GameMenu gamMenu;

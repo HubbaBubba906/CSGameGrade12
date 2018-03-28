@@ -1,4 +1,4 @@
-package gdx.menu.Screens;
+package gdx.Humberto;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,27 +9,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import static com.badlogic.gdx.graphics.g3d.particles.ParticleShader.ParticleType.Point;
 import gdx.menu.*;
 import gdx.common.*;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import javax.swing.SwingUtilities;
 
-public class ScrScratchShootV implements Screen, InputProcessor {
-
+public class HumbertoTest implements Screen, InputProcessor {
+/*=========================================================================================================================================================
+    This scratch is based on making turns betweeen the player and enemies.
+ =========================================================================================================================================================*/
     Button btnMenu;
     GameMenu gamMenu;
+    Texture txButtonP, txButtonT;
     OrthographicCamera oc;
     SpriteBatch batch;
 
-    public ScrScratchShootV(GameMenu _gamMenu) {  //Referencing the main class.
+    public HumbertoTest(GameMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
     }
 
@@ -45,7 +38,7 @@ public class ScrScratchShootV implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1); //Yellow background.
+        Gdx.gl.glClearColor(1, 1, 1, 1); //White background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
@@ -54,8 +47,7 @@ public class ScrScratchShootV implements Screen, InputProcessor {
     }
 
     @Override
-    public void resize(int width, int height
-    ) {
+    public void resize(int width, int height) {
     }
 
     @Override
@@ -76,56 +68,48 @@ public class ScrScratchShootV implements Screen, InputProcessor {
     }
 
     @Override
-    public boolean keyDown(int keycode
-    ) {
+    public boolean keyDown(int keycode) {
         return false;
     }
 
     @Override
-    public boolean keyUp(int keycode
-    ) {
+    public boolean keyUp(int keycode) {
         return false;
     }
 
     @Override
-    public boolean keyTyped(char character
-    ) {
+    public boolean keyTyped(char character) {
         return false;
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button
-    ) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
             if (isHit(screenX, screenY, btnMenu)) {
-                System.out.println("Scratch Menu");
-                gamMenu.updateState(1);
-            }
+                System.out.println("Menu");
+                gamMenu.updateState(0);
+            } 
         }
         return false;
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button
-    ) {
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer
-    ) {
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY
-    ) {
+    public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 
     @Override
-    public boolean scrolled(int amount
-    ) {
+    public boolean scrolled(int amount) {
         return false;
     }
 

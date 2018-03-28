@@ -18,19 +18,16 @@ import gdx.menu.*;
 import gdx.common.*;
 
 public class ScrScratchShooting2 implements Screen, InputProcessor {
-
-    /*
--------------------------------------------------------------------------------------------------------------------------------------------------------
-This Scratch is based on creating movement, working gravity and limited movement. Limited to each turn, once out you cant move.
--------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
+/*=========================================================================================================================================================
+    This scratch is based on making bullets travel while being affected by gravity.
+ =========================================================================================================================================================*/
     Button btnMenu;
     Shot SprBsc;
     GameMenu gamMenu;
     OrthographicCamera oc;
     SpriteBatch batch;
     Texture floor, back;
-    int SX = 100, SY = 699, SH = 25, SW = 25, SPwr = 0, SAngl = 0;
+    int SX = 100, SY = 699, SH = 25, SW = 25;
     float SpriteSpeed = 155f;
     double dSpeedX = 10, dSpeedY = 10, dGravity = 0.3;
     boolean Fire = false;
@@ -67,34 +64,6 @@ This Scratch is based on creating movement, working gravity and limited movement
             dSpeedY-=dGravity;
             SY-=dSpeedY;
             SX+=dSpeedX;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_UP)) {
-            SPwr += 1;
-            if (SPwr > 100) {
-                SPwr = 100;
-            }
-            System.out.println(SPwr);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_DOWN)) {
-            SPwr -= 1;
-            if (SPwr < 0) {
-                SPwr = 0;
-            }
-            System.out.println(SPwr);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT)) {
-            SAngl += 1;
-            if (SAngl > 180) {
-                SAngl = 180;
-            }
-            System.out.println(SAngl);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            SAngl -= 1;
-            if (SAngl < 0) {
-                SAngl = 0;
-            }
-            System.out.println(SAngl);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             dSpeedX=10;

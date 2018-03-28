@@ -3,10 +3,12 @@ package gdx.menu;
 import com.badlogic.gdx.Game;
 import gdx.common.*;
 import gdx.menu.Screens.*;
+import gdx.Humberto.*;
 
 public class GameMenu extends Game {
 
     ScrMenu scrMenu;
+    HumbertoTest HumbertoTest;
     ScrScratchMenu ScrScratch;
     ScrMGGScratch ScrScratch1;
     ScrScratchT ScrScratch2;
@@ -37,6 +39,10 @@ public class GameMenu extends Game {
         else if (nScreen == 14) {
             setScreen(ScrScratch5);
         }
+        //This is a screen for humberto within our single repositiory to see if this works with push and pull
+        else if (nScreen == 20){
+            setScreen(HumbertoTest);
+        }
     }
 
     @Override
@@ -50,6 +56,7 @@ public class GameMenu extends Game {
         ScrScratch3 = new ScrScratchShoot(this);
         ScrScratch4 = new ScrScratchShooting2(this);
         ScrScratch5 = new ScrScratchShootV(this);
+        HumbertoTest = new HumbertoTest(this);
         updateState(0);
     }
 
