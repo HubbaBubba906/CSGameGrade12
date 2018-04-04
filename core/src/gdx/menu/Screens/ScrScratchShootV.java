@@ -1,28 +1,21 @@
 package gdx.menu.Screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.Texture;
+
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.ApplicationAdapter;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import static com.badlogic.gdx.graphics.g3d.particles.ParticleShader.ParticleType.Point;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import gdx.menu.*;
 import gdx.common.*;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import javax.swing.SwingUtilities;
 
 public class ScrScratchShootV implements Screen, InputProcessor {
 
@@ -55,6 +48,7 @@ public class ScrScratchShootV implements Screen, InputProcessor {
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("Ball.png"));
+        
         sprite = new Sprite(texture);
         /*Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -73,10 +67,12 @@ public class ScrScratchShootV implements Screen, InputProcessor {
         Gdx.gl.glClearColor(0, 0, 0, 1); //Yellow background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update(Gdx.graphics.getDeltaTime());
-        vDir.set(temp.x=0, temp.y=0); // setting where the sprite goes
+        sprite.setScale(0.1f);
+        vDir.set(temp.x, temp.y); // setting where the sprite goes
         temp.x += 1; // incressing vector x
         temp.y += 1; // incressing vector y
         batch.begin();
+        sprite.draw(batch);
         batch.setProjectionMatrix(oc.combined);
         btnMenu.draw(batch);
         batch.end();
@@ -101,6 +97,7 @@ public class ScrScratchShootV implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
+        texture.dispose();
         batch.dispose();
     }
 
@@ -179,7 +176,7 @@ public class ScrScratchShootV implements Screen, InputProcessor {
         sprite.setX(position.x);
         sprite.setY(position.y);
         //this is the original code used,https://stackoverflow.com/questions/17694076/moving-a-point-vector-on-an-angle-libgdx
-        /*dir.set(touch).sub(position).nor();
+      /*dir.set(touch).sub(position).nor();
         velocity.set(dir).scl(speed);
         movement.set(velocity).scl(deltaTime);
         if (position.dst2(touch) > movement.len2()) {
