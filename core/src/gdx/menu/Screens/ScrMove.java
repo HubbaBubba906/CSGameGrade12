@@ -9,18 +9,33 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import gdx.menu.*;
 import gdx.common.*;
 
-public class ScrMenu implements Screen, InputProcessor {
+public class ScrMove implements Screen, InputProcessor {
 
-    Button btnScratch, btnBert, btnPlay;
+    /*
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+This Scratch is based on creating movement, working gravity and limited movement. Limited to each turn, once out you cant move.
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+    Button btnMenu;
+    Tank SprTank1;
     GameMenu gamMenu;
-    Texture txButtonP, txButtonT;
     OrthographicCamera oc;
     SpriteBatch batch;
+    Texture floor, back, gasmoney;
+    int TankX = 0, TankY = 0;
+    float SpriteSpeed = 155f;
+    double dSpeed = 0, dGravity = 0.1;
+    int dGas;
 
-    public ScrMenu(GameMenu _gamMenu) {  //Referencing the main class.
+    public ScrMove(GameMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
     }
 
@@ -30,21 +45,53 @@ public class ScrMenu implements Screen, InputProcessor {
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
         batch = new SpriteBatch();
-        btnScratch = new Button(100, 50, 0, Gdx.graphics.getHeight() - 150, "ScratchBut.png ");
-        btnBert = new Button(100, 50, 0, Gdx.graphics.getHeight() - 100, "BertBut.png ");
-        btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "ScratchBut.png ");
+        floor = new Texture("floor.jpg");
+        back = new Texture("back.jpg");
+        gasmoney = new Texture("green.png");
+        TankX = 500;
+        TankY = -50;
+        dSpeed = 0;
+        dGas = 500;
+        btnMenu = new Button(100, 50, 1500, Gdx.graphics.getHeight() - 50, "MenuBut.png ");
+        SprTank1 = new Tank(TankX, TankY, 100, 100, "Tanks.png ");
         Gdx.input.setInputProcessor(this);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 1, 0, 1); //Green background.
+        Gdx.gl.glClearColor(0, 0, 0, 1); //Yellow background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
+        
+        if (TankY <= 700) { //Gravity
+            dSpeed -= dGravity;
+        } else if (TankY >= 700) {
+            TankY = 700;
+        }
+        if (dGas <= 400) {
+            SpriteSpeed = 0;
+            dGas = 500;
+        }
+        TankY -= dSpeed;
+        batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(gasmoney, TankX, TankY - 10, dGas - 400, 10);
+        batch.draw(SprTank1, TankX, TankY, 100, 100);
+        if (TankY >= 100) {
+            if (Gdx.input.isKeyPressed(Input.Keys.A) && TankX > 0) {
+                TankX -= Gdx.graphics.getDeltaTime() * SpriteSpeed;
+                if (SpriteSpeed > 1) {
+                    dGas -= 1;
+                }
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && TankX < Gdx.graphics.getWidth()) {
+                TankX += Gdx.graphics.getDeltaTime() * SpriteSpeed;
+                if (SpriteSpeed > 1) {
+                    dGas -= 1;
+                }
+            }
+        }
         batch.setProjectionMatrix(oc.combined);
-        btnScratch.draw(batch);
-        btnBert.draw(batch);
-        btnPlay.draw(batch);
+        btnMenu.draw(batch);
         batch.end();
     }
 
@@ -87,15 +134,9 @@ public class ScrMenu implements Screen, InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
-            if (isHit(screenX, screenY, btnScratch)) {
-                System.out.println("Scratch");
+            if (isHit(screenX, screenY, btnMenu)) {
+                System.out.println("Scratch Menu");
                 gamMenu.updateState(1);
-            } else if (isHit(screenX, screenY, btnBert)) {
-                System.out.println("bert");
-                gamMenu.updateState(20);
-            } else if (isHit(screenX, screenY, btnPlay)) {
-                System.out.println("Play");
-                gamMenu.updateState(2);
             }
         }
         return false;

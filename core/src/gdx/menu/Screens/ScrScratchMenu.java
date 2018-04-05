@@ -14,7 +14,7 @@ import gdx.common.*;
 
 public class ScrScratchMenu implements Screen, InputProcessor {
 
-    Button btnMenu, btnScratch1, btnScratch2, btnScratch3, btnScratch4, btnScratch5;
+    Button btnMenu, btnScratch1, btnScratch2, btnScratch3, btnScratch4, btnScratch5, btnScratch6;
     GameMenu gamMenu;
     Texture txButtonP, txButtonT;
     OrthographicCamera oc;
@@ -41,7 +41,11 @@ public class ScrScratchMenu implements Screen, InputProcessor {
         btnScratch4 = new Button(100, 50, 0, Gdx.graphics.getHeight() - 650, "Shoot2But.png ");
         //Scratch for shot using vectors and power.
         btnScratch5 = new Button(100, 50, 0, Gdx.graphics.getHeight() - 600, "S4But.png ");
+        //This is a scratch for shooting with vectors using user input
+        btnScratch6 = new Button(100, 50, 0, Gdx.graphics.getHeight() - 550, "S4But.png ");
         Gdx.input.setInputProcessor(this);
+        
+        
     }
 
     @Override
@@ -56,6 +60,7 @@ public class ScrScratchMenu implements Screen, InputProcessor {
         btnScratch3.draw(batch);
         btnScratch4.draw(batch);
         btnScratch5.draw(batch);
+        btnScratch6.draw(batch);
         batch.end();
     }
 
@@ -116,6 +121,9 @@ public class ScrScratchMenu implements Screen, InputProcessor {
             } else if (isHit(screenX, screenY, btnScratch5)) {
                 System.out.println("Scratch 5");
                 gamMenu.updateState(14);
+            } else if (isHit(screenX, screenY, btnScratch6)) {
+                System.out.println("Scratch 6");
+                gamMenu.updateState(15);
             }
         }
         return false;

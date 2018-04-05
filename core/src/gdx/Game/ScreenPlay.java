@@ -1,4 +1,4 @@
-package gdx.menu.Screens;
+package gdx.Game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,33 +9,32 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import gdx.menu.*;
 import gdx.common.*;
+import gdx.menu.Screens.*;
 
-public class ScrMGGScratch implements Screen, InputProcessor {
+public class ScreenPlay implements Screen, InputProcessor {
 
-    /*
--------------------------------------------------------------------------------------------------------------------------------------------------------
-This Scratch is based on creating movement, working gravity and limited movement. Limited to each turn, once out you cant move.
--------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
+    /*=========================================================================================================================================================
+    This scratch is based on making turns betweeen the player and enemies.
+ =========================================================================================================================================================*/
     Button btnMenu;
-    Tank SprTank1;
     GameMenu gamMenu;
+    Texture txButtonP, txButtonT;
     OrthographicCamera oc;
     SpriteBatch batch;
+    Shot SprBsc;
+    Tank SprTank1;
     Texture floor, back, gasmoney;
     int TankX = 0, TankY = 0;
     float SpriteSpeed = 155f;
     double dSpeed = 0, dGravity = 0.1;
     int dGas;
+    int SX = TankX, SY = 699, SH = 25, SW = 25;
+    double dSpeedX = 5, dSpeedY = 5;
+    boolean Fire = false;
 
-    public ScrMGGScratch(GameMenu _gamMenu) {  //Referencing the main class.
+    public ScreenPlay(GameMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
     }
 
@@ -45,6 +44,7 @@ This Scratch is based on creating movement, working gravity and limited movement
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
         batch = new SpriteBatch();
+        btnMenu = new Button(100, 50, 1500, Gdx.graphics.getHeight() - 50, "MenuBut.png ");
         floor = new Texture("floor.jpg");
         back = new Texture("back.jpg");
         gasmoney = new Texture("green.png");
@@ -54,28 +54,27 @@ This Scratch is based on creating movement, working gravity and limited movement
         dGas = 500;
         btnMenu = new Button(100, 50, 1500, Gdx.graphics.getHeight() - 50, "MenuBut.png ");
         SprTank1 = new Tank(TankX, TankY, 100, 100, "Tanks.png ");
+        SprBsc = new Shot(SX, SY = 700, SH, SW, "BasicShot.png ");
         Gdx.input.setInputProcessor(this);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1); //Yellow background.
+        Gdx.gl.glClearColor(0, 1, 1, 1); //White background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        
-        if (TankY <= 700) { //Gravity
+        if (TankY <= 650) { //Gravity
             dSpeed -= dGravity;
-        } else if (TankY >= 700) {
-            TankY = 700;
+        } else if (TankY >= 650) {
+            TankY = 650;
         }
         if (dGas <= 400) {
             SpriteSpeed = 0;
             dGas = 500;
         }
         TankY -= dSpeed;
-        batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+       /* batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(gasmoney, TankX, TankY - 10, dGas - 400, 10);
-        batch.draw(SprTank1, TankX, TankY, 100, 100);
+        batch.draw(SprTank1, TankX, TankY, 100, 100);*/
         if (TankY >= 100) {
             if (Gdx.input.isKeyPressed(Input.Keys.A) && TankX > 0) {
                 TankX -= Gdx.graphics.getDeltaTime() * SpriteSpeed;
@@ -90,8 +89,31 @@ This Scratch is based on creating movement, working gravity and limited movement
                 }
             }
         }
+        if (SY >= 700) {
+            SX = TankX+20;
+            SY = TankY+40;
+            dSpeedX = 0;
+            dSpeedY = 0;
+            Fire = false;
+        }
+        if (Fire = true) {
+            dSpeedY -= dGravity;
+            SY -= dSpeedY;
+            SX += dSpeedX;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            dSpeedX = 5;
+            dSpeedY = 5;
+            SY = 699;
+            Fire = true;
+        }
+        batch.begin();
         batch.setProjectionMatrix(oc.combined);
         btnMenu.draw(batch);
+        batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(SprBsc, SX, SY, SH, SW);
+        batch.draw(gasmoney, TankX, TankY - 10, dGas - 400, 10);
+        batch.draw(SprTank1, TankX, TankY, 100, 100);
         batch.end();
     }
 
@@ -135,8 +157,8 @@ This Scratch is based on creating movement, working gravity and limited movement
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
             if (isHit(screenX, screenY, btnMenu)) {
-                System.out.println("Scratch Menu");
-                gamMenu.updateState(1);
+                System.out.println("Menu");
+                gamMenu.updateState(0);
             }
         }
         return false;

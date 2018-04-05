@@ -17,7 +17,7 @@ import com.badlogic.gdx.Input;
 import gdx.menu.*;
 import gdx.common.*;
 
-public class ScrScratchShoot implements Screen, InputProcessor {
+public class ScrExplodeScratch implements Screen, InputProcessor {
 /*=========================================================================================================================================================
     This scratch is based on making bullets explode on contact with the ground level.
  =========================================================================================================================================================*/
@@ -31,7 +31,7 @@ public class ScrScratchShoot implements Screen, InputProcessor {
     float SpriteSpeed = 155f;
     double dSpeed = 0, dGravity = 0.1;
 
-    public ScrScratchShoot(GameMenu _gamMenu) {  //Referencing the main class.
+    public ScrExplodeScratch(GameMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
     }
 

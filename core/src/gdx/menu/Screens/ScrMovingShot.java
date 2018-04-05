@@ -9,20 +9,30 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import gdx.menu.*;
 import gdx.common.*;
 
-public class ScrScratchT implements Screen, InputProcessor {
+public class ScrMovingShot implements Screen, InputProcessor {
 /*=========================================================================================================================================================
-    This scratch is based on making turns betweeen the player and enemies.
+    This scratch is based on making bullets travel while being affected by gravity.
  =========================================================================================================================================================*/
     Button btnMenu;
+    Shot SprBsc;
     GameMenu gamMenu;
-    Texture txButtonP, txButtonT;
     OrthographicCamera oc;
     SpriteBatch batch;
+    Texture floor, back;
+    int SX = 100, SY = 699, SH = 25, SW = 25;
+    float SpriteSpeed = 155f;
+    double dSpeedX = 10, dSpeedY = 10, dGravity = 0.3;
+    boolean Fire = false;
 
-    public ScrScratchT(GameMenu _gamMenu) {  //Referencing the main class.
+    public ScrMovingShot(GameMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
     }
 
@@ -32,16 +42,37 @@ public class ScrScratchT implements Screen, InputProcessor {
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
         batch = new SpriteBatch();
+        floor = new Texture("floor.jpg");
+        back = new Texture("back.jpg");
         btnMenu = new Button(100, 50, 1500, Gdx.graphics.getHeight() - 50, "MenuBut.png ");
-        //This scratch involves gravity, movement and limiting the movement to a set ammount per "turn", there are currently no turns.
+        SprBsc = new Shot(SX, SY, SH, SW, "BasicShot.png ");
         Gdx.input.setInputProcessor(this);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1); //White background.
+        Gdx.gl.glClearColor(0, 0, 0, 1); //Yellow background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
+        
+        if(SY>=700){
+            dSpeedX=0;
+            dSpeedY=0;
+            Fire=false;
+        }
+        if(Fire=true){
+            dSpeedY-=dGravity;
+            SY-=dSpeedY;
+            SX+=dSpeedX;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            dSpeedX=10;
+            dSpeedY=10;
+            SY=699;
+            Fire=true;
+        }
+        batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(SprBsc, SX, SY, SH, SW);
         batch.setProjectionMatrix(oc.combined);
         btnMenu.draw(batch);
         batch.end();
@@ -87,9 +118,9 @@ public class ScrScratchT implements Screen, InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
             if (isHit(screenX, screenY, btnMenu)) {
-                System.out.println("Menu");
+                System.out.println("Scratch Menu");
                 gamMenu.updateState(1);
-            } 
+            }
         }
         return false;
     }

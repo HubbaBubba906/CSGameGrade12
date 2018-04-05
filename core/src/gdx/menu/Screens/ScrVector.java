@@ -17,7 +17,7 @@ import com.badlogic.gdx.math.Vector3;
 import gdx.menu.*;
 import gdx.common.*;
 
-public class ScrScratchShootV implements Screen, InputProcessor {
+public class ScrVector implements Screen, InputProcessor {
 
     Button btnMenu;
     GameMenu gamMenu;
@@ -34,7 +34,7 @@ public class ScrScratchShootV implements Screen, InputProcessor {
 
     float speed = 100;
 
-    public ScrScratchShootV(GameMenu _gamMenu) {  //Referencing the main class.
+    public ScrVector(GameMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
     }
 
