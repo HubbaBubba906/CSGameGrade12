@@ -31,8 +31,9 @@ public class ScreenPlay implements Screen, InputProcessor {
     double dSpeed = 0, dGravity = 0.1;
     int dGas;
     int SX = TankX, SY = 699, SH = 25, SW = 25;
-    double dSpeedX = 5, dSpeedY = 5;
+    double dSpeedX = 7, dSpeedY = 7;
     boolean Fire = false;
+    boolean InAir = false;
 
     public ScreenPlay(GameMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
@@ -72,7 +73,7 @@ public class ScreenPlay implements Screen, InputProcessor {
             dGas = 500;
         }
         TankY -= dSpeed;
-       /* batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        /* batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(gasmoney, TankX, TankY - 10, dGas - 400, 10);
         batch.draw(SprTank1, TankX, TankY, 100, 100);*/
         if (TankY >= 100) {
@@ -90,27 +91,29 @@ public class ScreenPlay implements Screen, InputProcessor {
             }
         }
         if (SY >= 700) {
-            SX = TankX+20;
-            SY = TankY+40;
+            SX = TankX + 30;
+            SY = TankY + 40;
             dSpeedX = 0;
             dSpeedY = 0;
             Fire = false;
+            InAir = false;
         }
         if (Fire = true) {
             dSpeedY -= dGravity;
             SY -= dSpeedY;
             SX += dSpeedX;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            dSpeedX = 5;
-            dSpeedY = 5;
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && InAir != true) {
+            dSpeedX = 7;
+            dSpeedY = 7;
             SY = 699;
             Fire = true;
+            InAir = true;
         }
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
-        btnMenu.draw(batch);
         batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        btnMenu.draw(batch);
         batch.draw(SprBsc, SX, SY, SH, SW);
         batch.draw(gasmoney, TankX, TankY - 10, dGas - 400, 10);
         batch.draw(SprTank1, TankX, TankY, 100, 100);
