@@ -32,7 +32,7 @@ public class ScrMenu implements Screen, InputProcessor {
         batch = new SpriteBatch();
         btnScratch = new Button(100, 50, 0, Gdx.graphics.getHeight() - 150, "ScratchBut.png ");
         btnBert = new Button(100, 50, 0, Gdx.graphics.getHeight() - 100, "BertBut.png ");
-        btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "ScratchBut.png ");
+        btnPlay = new Button(100, 50, 0, Gdx.graphics.getHeight() - 50, "PlayBut.png ");
         Gdx.input.setInputProcessor(this);
     }
 

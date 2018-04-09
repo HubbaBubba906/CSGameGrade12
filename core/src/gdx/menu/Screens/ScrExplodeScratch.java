@@ -19,7 +19,7 @@ import gdx.common.*;
 
 public class ScrExplodeScratch implements Screen, InputProcessor {
 /*=========================================================================================================================================================
-    This scratch is based on making bullets explode on contact with the ground level.
+    This scratch is based on making bullets explode on contact with the ground level. This sucks so it wont be in the final game.
  =========================================================================================================================================================*/
     Button btnMenu;
     Shot SprBsc;

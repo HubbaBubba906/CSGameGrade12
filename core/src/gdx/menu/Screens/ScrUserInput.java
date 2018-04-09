@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -26,7 +27,7 @@ public class ScrUserInput implements Screen, InputProcessor {
     Vector2 position = new Vector2();
     Vector2 velocity = new Vector2();
     Vector2 movement = new Vector2();
-    Vector2 vDir = new Vector2();
+    Vector2 touch = new Vector2();
     Vector2 dir = new Vector2();
     Vector3 temp = new Vector3();
     Texture texture;
@@ -34,12 +35,16 @@ public class ScrUserInput implements Screen, InputProcessor {
 
     float speed = 100;
 
+    OrthographicCamera camera;
+
     public ScrUserInput(GameMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
     }
 
     @Override
     public void show() {
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false);
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
@@ -48,18 +53,18 @@ public class ScrUserInput implements Screen, InputProcessor {
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("Ball.png"));
-        
+
         sprite = new Sprite(texture);
-        /*Gdx.input.setInputProcessor(new InputAdapter() {
+        Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
-        
-        //This was for moving to the mouse x and y.
+
+            //This was for moving to the mouse x and y.
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 camera.unproject(temp.set(screenX, screenY, 0));
-                vDir.set(temp.x, temp.y);
+                touch.set(temp.x, temp.y);
                 return true;
             }
-        });*/
+        });
     }
 
     @Override
@@ -68,9 +73,7 @@ public class ScrUserInput implements Screen, InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update(Gdx.graphics.getDeltaTime());
         sprite.setScale(0.1f);
-        vDir.set(temp.x, temp.y); // setting where the sprite goes
-        temp.x += 1; // incressing vector x
-        temp.y += 1; // incressing vector y
+        touch.set(temp.x, temp.y); // setting where the sprite goes
         batch.begin();
         sprite.draw(batch);
         batch.setProjectionMatrix(oc.combined);
@@ -165,18 +168,18 @@ public class ScrUserInput implements Screen, InputProcessor {
 
     public void update(float deltaTime) {
         position.set(sprite.getX(), sprite.getY());
-        dir.set(vDir).sub(position).nor();
+        dir.set(touch).sub(position).nor();
         velocity.set(dir.scl(speed));
         movement.set(velocity).scl(deltaTime);
-        if (position.dst2(vDir) > movement.len2()) {
+        if (position.dst2(touch) > movement.len2()) {
             position.add(movement);
         } else {
-            position.set(vDir);
+            position.set(touch);
         }
         sprite.setX(position.x);
         sprite.setY(position.y);
         //this is the original code used,https://stackoverflow.com/questions/17694076/moving-a-point-vector-on-an-angle-libgdx
-      /*dir.set(touch).sub(position).nor();
+        /*dir.set(touch).sub(position).nor();
         velocity.set(dir).scl(speed);
         movement.set(velocity).scl(deltaTime);
         if (position.dst2(touch) > movement.len2()) {

@@ -31,7 +31,7 @@ public class ScreenPlay implements Screen, InputProcessor {
     double dSpeed = 0, dGravity = 0.1;
     int dGas;
     int SX = TankX, SY = 699, SH = 25, SW = 25;
-    double dSpeedX = 7, dSpeedY = 7;
+    double dSpeedX = 4, dSpeedY = 4;
     boolean Fire = false;
     boolean InAir = false;
 
@@ -73,9 +73,6 @@ public class ScreenPlay implements Screen, InputProcessor {
             dGas = 500;
         }
         TankY -= dSpeed;
-        /* batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(gasmoney, TankX, TankY - 10, dGas - 400, 10);
-        batch.draw(SprTank1, TankX, TankY, 100, 100);*/
         if (TankY >= 100) {
             if (Gdx.input.isKeyPressed(Input.Keys.A) && TankX > 0) {
                 TankX -= Gdx.graphics.getDeltaTime() * SpriteSpeed;
@@ -104,8 +101,8 @@ public class ScreenPlay implements Screen, InputProcessor {
             SX += dSpeedX;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && InAir != true) {
-            dSpeedX = 7;
-            dSpeedY = 7;
+            dSpeedX = 4;
+            dSpeedY = 4;
             SY = 699;
             Fire = true;
             InAir = true;
