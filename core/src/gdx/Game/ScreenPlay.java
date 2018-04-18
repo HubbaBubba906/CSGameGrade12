@@ -45,12 +45,9 @@ public class ScreenPlay implements Screen, InputProcessor {
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
         batch = new SpriteBatch();
-        btnMenu = new Button(100, 50, 1500, Gdx.graphics.getHeight() - 50, "MenuBut.png ");
         floor = new Texture("floor.jpg");
         back = new Texture("back.jpg");
         gasmoney = new Texture("green.png");
-        TankX = 500;
-        TankY = -50;
         dSpeed = 0;
         dGas = 500;
         btnMenu = new Button(100, 50, 1500, Gdx.graphics.getHeight() - 50, "MenuBut.png ");
@@ -63,6 +60,8 @@ public class ScreenPlay implements Screen, InputProcessor {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 1, 1, 1); //White background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        SprTank1.setX(500);
+        SprTank1.setY(-50);
         if (TankY <= 650) { //Gravity
             dSpeed -= dGravity;
         } else if (TankY >= 650) {
@@ -111,9 +110,9 @@ public class ScreenPlay implements Screen, InputProcessor {
         batch.setProjectionMatrix(oc.combined);
         batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         btnMenu.draw(batch);
-        batch.draw(SprBsc, SX, SY, SH, SW);
+        SprBsc.draw(batch);
         batch.draw(gasmoney, TankX, TankY - 10, dGas - 400, 10);
-        batch.draw(SprTank1, TankX, TankY, 100, 100);
+        SprTank1.draw(batch);
         batch.end();
     }
 

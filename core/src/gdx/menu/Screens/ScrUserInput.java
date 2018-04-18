@@ -44,7 +44,6 @@ public class ScrUserInput implements Screen, InputProcessor {
     @Override
     public void show() {
         camera = new OrthographicCamera();
-        camera.setToOrtho(false);
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
@@ -53,7 +52,6 @@ public class ScrUserInput implements Screen, InputProcessor {
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("Ball.png"));
-
         sprite = new Sprite(texture);
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -61,7 +59,13 @@ public class ScrUserInput implements Screen, InputProcessor {
             //This was for moving to the mouse x and y.
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 camera.unproject(temp.set(screenX, screenY, 0));
-                touch.set(temp.x, temp.y);
+                touch.set(temp.x, (temp.y*-1));
+                if (button == Input.Buttons.LEFT) {
+                    if (isHit(screenX, screenY, btnMenu)) {
+                        System.out.println("Scratch Menu");
+                        gamMenu.updateState(1);
+                    }
+                }
                 return true;
             }
         });
@@ -72,8 +76,8 @@ public class ScrUserInput implements Screen, InputProcessor {
         Gdx.gl.glClearColor(0, 0, 0, 1); //Yellow background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update(Gdx.graphics.getDeltaTime());
-        sprite.setScale(0.1f);
-        touch.set(temp.x, temp.y); // setting where the sprite goes
+        //sprite.setScale(0.1f);
+        touch.set(temp.x, (temp.y*-1)); // setting where the sprite goes
         batch.begin();
         sprite.draw(batch);
         batch.setProjectionMatrix(oc.combined);
@@ -119,18 +123,6 @@ public class ScrUserInput implements Screen, InputProcessor {
     @Override
     public boolean keyTyped(char character
     ) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button
-    ) {
-        if (button == Input.Buttons.LEFT) {
-            if (isHit(screenX, screenY, btnMenu)) {
-                System.out.println("Scratch Menu");
-                gamMenu.updateState(1);
-            }
-        }
         return false;
     }
 
@@ -188,5 +180,10 @@ public class ScrUserInput implements Screen, InputProcessor {
             position.set(touch);
         }*/
 
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
