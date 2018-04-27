@@ -13,9 +13,6 @@ import gdx.menu.*;
 import gdx.common.*;
 
 public class HumbertoTest implements Screen, InputProcessor {
-/*=========================================================================================================================================================
-    This scratch is based on making turns betweeen the player and enemies.
- =========================================================================================================================================================*/
     Button btnMenu;
     GameMenu gamMenu;
     Texture txButtonP, txButtonT;
