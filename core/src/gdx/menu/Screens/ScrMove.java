@@ -29,11 +29,11 @@ This Scratch is based on creating movement, working gravity and limited movement
     GameMenu gamMenu;
     OrthographicCamera oc;
     SpriteBatch batch;
-    Texture floor, back, gasmoney;
-    int TankX = 0, TankY = 0;
-    float SpriteSpeed = 155f;
+    Texture txFloor, txBack, txGasmoney;
+    int nTankX = 0, nTankY = 0;
+    float fSpriteSpeed = 155f;
     double dSpeed = 0, dGravity = 0.1;
-    int dGas;
+    int nGas;
 
     public ScrMove(GameMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
@@ -45,15 +45,15 @@ This Scratch is based on creating movement, working gravity and limited movement
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
         batch = new SpriteBatch();
-        floor = new Texture("floor.jpg");
-        back = new Texture("back.jpg");
-        gasmoney = new Texture("green.png");
-        TankX = 500;
-        TankY = -50;
+        txFloor = new Texture("floor.jpg");
+        txBack = new Texture("back.jpg");
+        txGasmoney = new Texture("green.png");
+        nTankX = 500;
+        nTankY = -50;
         dSpeed = 0;
-        dGas = 500;
+        nGas = 500;
         btnMenu = new Button(100, 50, 1500, Gdx.graphics.getHeight() - 50, "MenuBut.png ");
-        SprTank1 = new Tank(TankX, TankY, 100, 100, "Tanks.png ");
+        SprTank1 = new Tank(nTankX, nTankY, 100, 100, "Tanks.png ");
         Gdx.input.setInputProcessor(this);
     }
 
@@ -63,30 +63,30 @@ This Scratch is based on creating movement, working gravity and limited movement
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         
-        if (TankY <= 700) { //Gravity
+        if (nTankY <= 700) { //Gravity
             dSpeed -= dGravity;
-        } else if (TankY >= 700) {
-            TankY = 700;
+        } else if (nTankY >= 700) {
+            nTankY = 700;
         }
-        if (dGas <= 400) {
-            SpriteSpeed = 0;
-            dGas = 500;
+        if (nGas <= 400) {
+            fSpriteSpeed = 0;
+            nGas = 500;
         }
-        TankY -= dSpeed;
-        batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(gasmoney, TankX, TankY - 10, dGas - 400, 10);
-        batch.draw(SprTank1, TankX, TankY, 100, 100);
-        if (TankY >= 100) {
-            if (Gdx.input.isKeyPressed(Input.Keys.A) && TankX > 0) {
-                TankX -= Gdx.graphics.getDeltaTime() * SpriteSpeed;
-                if (SpriteSpeed > 1) {
-                    dGas -= 1;
+        nTankY -= dSpeed;
+        batch.draw(txBack, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(txGasmoney, nTankX, nTankY - 10, nGas - 400, 10);
+        batch.draw(SprTank1, nTankX, nTankY, 100, 100);
+        if (nTankY >= 100) {
+            if (Gdx.input.isKeyPressed(Input.Keys.A) && nTankX > 0) {
+                nTankX -= Gdx.graphics.getDeltaTime() * fSpriteSpeed;
+                if (fSpriteSpeed > 1) {
+                    nGas -= 1;
                 }
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && TankX < Gdx.graphics.getWidth()) {
-                TankX += Gdx.graphics.getDeltaTime() * SpriteSpeed;
-                if (SpriteSpeed > 1) {
-                    dGas -= 1;
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && nTankX < Gdx.graphics.getWidth()) {
+                nTankX += Gdx.graphics.getDeltaTime() * fSpriteSpeed;
+                if (fSpriteSpeed > 1) {
+                    nGas -= 1;
                 }
             }
         }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import gdx.common.*;
 import gdx.menu.Screens.*;
 import gdx.Humberto.*;
-import gdx.Game.*;
 
 public class GameMenu extends Game {
 
@@ -17,7 +16,7 @@ public class GameMenu extends Game {
     ScrMovingShot scrScratch4;
     ScrVector scrScratch5;
     ScrUserInput scrScratch6;
-    ScreenPlay scrPlay;
+    ScrPlay scrPlay;
     int nScreen; // 0 for menu, 1 for Scratchs
 
     public void updateState(int _nScreen) {
@@ -60,7 +59,7 @@ public class GameMenu extends Game {
         nScreen = 0;
         // notice that "this" is passed to each screen. Each screen now has access to methods within the "game" master program
         scrMenu = new ScrMenu(this);
-        scrPlay = new ScreenPlay(this);
+        scrPlay = new ScrPlay(this);
         scrScratch = new ScrScratchMenu(this);
         scrScratch1 = new ScrMove(this);
         scrScratch2 = new ScrTurns(this);

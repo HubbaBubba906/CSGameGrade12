@@ -26,9 +26,9 @@ public class ScrExplodeScratch implements Screen, InputProcessor {
     GameMenu gamMenu;
     OrthographicCamera oc;
     SpriteBatch batch;
-    Texture floor, back;
-    int SX = 0, SY = 0, SH = 25, SW = 25;
-    float SpriteSpeed = 155f;
+    Texture txFloor, txBack;
+    int nSX = 0, nSY = 0, nSH = 25, nSW = 25;
+    float fSpriteSpeed = 155f;
     double dSpeed = 0, dGravity = 0.1;
 
     public ScrExplodeScratch(GameMenu _gamMenu) {  //Referencing the main class.
@@ -41,13 +41,13 @@ public class ScrExplodeScratch implements Screen, InputProcessor {
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
         batch = new SpriteBatch();
-        floor = new Texture("floor.jpg");
-        back = new Texture("back.jpg");
-        SX = 500;
-        SY = -50;
+        txFloor = new Texture("floor.jpg");
+        txBack = new Texture("back.jpg");
+        nSX = 500;
+        nSY = -50;
         dSpeed = 0;
         btnMenu = new Button(100, 50, 1500, Gdx.graphics.getHeight() - 50, "MenuBut.png ");
-        SprBsc = new Shot(SX, SY, SH, SW, "BasicShot.png ");
+        SprBsc = new Shot(nSX, nSY, nSH, nSW, "BasicShot.png ");
         Gdx.input.setInputProcessor(this);
     }
 
@@ -57,24 +57,24 @@ public class ScrExplodeScratch implements Screen, InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
 
-        if (SY <= 699) { //Gravity
+        if (nSY <= 699) { //Gravity
             dSpeed -= dGravity;
-        } else if (SY >= 705) {
-            SY = 700;
+        } else if (nSY >= 705) {
+            nSY = 700;
             dSpeed=0;
-            SH = 75;
-            SW = 75;
-            SX = SX -25;
+            nSH = 75;
+            nSW = 75;
+            nSX = nSX -25;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            SH = 25;
-            SW = 25;
+            nSH = 25;
+            nSW = 25;
             dSpeed = 0;
-            SY = 0;
+            nSY = 0;
         }
-        SY -= dSpeed;
-        batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(SprBsc, SX, SY, SH, SW);
+        nSY -= dSpeed;
+        batch.draw(txBack, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(SprBsc, nSX, nSY, nSH, nSW);
         batch.setProjectionMatrix(oc.combined);
         btnMenu.draw(batch);
         batch.end();

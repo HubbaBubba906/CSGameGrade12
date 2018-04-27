@@ -1,4 +1,4 @@
-package gdx.Game;
+package gdx.menu.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,13 +11,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import gdx.menu.*;
 import gdx.common.*;
-import gdx.menu.Screens.*;
+import gdx.menu.*;
 
-public class ScreenPlay implements Screen, InputProcessor {
+public class ScrPlay implements Screen, InputProcessor {
 
-    /*=========================================================================================================================================================
-    This scratch is based on making turns betweeen the player and enemies.
- =========================================================================================================================================================*/
     Button btnMenu;
     GameMenu gamMenu;
     Texture txButtonP, txButtonT;
@@ -25,17 +22,17 @@ public class ScreenPlay implements Screen, InputProcessor {
     SpriteBatch batch;
     Shot SprBsc;
     Tank SprTank1;
-    Texture floor, back, gasmoney;
-    int TankX = 0, TankY = 0;
-    float SpriteSpeed = 155f;
+    Texture txFloor, txBack, txGasmoney;
+    int nTankX = 0, nTankY = 0;
+    float fSpriteSpeed = 155f;
     double dSpeed = 0, dGravity = 0.1;
-    int dGas;
-    int SX = TankX, SY = 699, SH = 25, SW = 25;
+    int nGas;
+    int nSX = nTankX, nSY = 699, nSH = 25, nSW = 25;
     double dSpeedX = 4, dSpeedY = 4;
-    boolean Fire = false;
-    boolean InAir = false;
+    boolean bFire = false;
+    boolean bInAir = false;
 
-    public ScreenPlay(GameMenu _gamMenu) {  //Referencing the main class.
+    public ScrPlay(GameMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
     }
 
@@ -44,15 +41,17 @@ public class ScreenPlay implements Screen, InputProcessor {
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
+        nTankX = 500;
+        nTankY = -50;
         batch = new SpriteBatch();
-        floor = new Texture("floor.jpg");
-        back = new Texture("back.jpg");
-        gasmoney = new Texture("green.png");
+        txFloor = new Texture("floor.jpg");
+        txBack = new Texture("back.jpg");
+        txGasmoney = new Texture("green.png");
         dSpeed = 0;
-        dGas = 500;
+        nGas = 500;
         btnMenu = new Button(100, 50, 1500, Gdx.graphics.getHeight() - 50, "MenuBut.png ");
-        SprTank1 = new Tank(TankX, TankY, 100, 100, "Tanks.png ");
-        SprBsc = new Shot(SX, SY = 700, SH, SW, "BasicShot.png ");
+        SprTank1 = new Tank(nTankX, nTankY, 100, 100, "Tanks.png ");
+        SprBsc = new Shot(nSX, nSY = 700, nSH, nSW, "BasicShot.png ");
         Gdx.input.setInputProcessor(this);
     }
 
@@ -60,59 +59,58 @@ public class ScreenPlay implements Screen, InputProcessor {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 1, 1, 1); //White background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        SprTank1.setX(500);
-        SprTank1.setY(-50);
-        if (TankY <= 650) { //Gravity
+
+        if (nTankY <= 650) { //Gravity
             dSpeed -= dGravity;
-        } else if (TankY >= 650) {
-            TankY = 650;
+        } else if (nTankY >= 650) {
+            nTankY=650;
         }
-        if (dGas <= 400) {
-            SpriteSpeed = 0;
-            dGas = 500;
+        if (nGas <= 400) {
+            fSpriteSpeed = 0;
+            nGas = 500;
         }
-        TankY -= dSpeed;
-        if (TankY >= 100) {
-            if (Gdx.input.isKeyPressed(Input.Keys.A) && TankX > 0) {
-                TankX -= Gdx.graphics.getDeltaTime() * SpriteSpeed;
-                if (SpriteSpeed > 1) {
-                    dGas -= 1;
+        nTankY -= dSpeed;
+        if (nTankY >= 100) {
+            if (Gdx.input.isKeyPressed(Input.Keys.A) && nTankX > 0) {
+                nTankX -= Gdx.graphics.getDeltaTime() * fSpriteSpeed;
+                if (fSpriteSpeed > 1) {
+                    nGas -= 1;
                 }
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && TankX < Gdx.graphics.getWidth()) {
-                TankX += Gdx.graphics.getDeltaTime() * SpriteSpeed;
-                if (SpriteSpeed > 1) {
-                    dGas -= 1;
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && nTankX < Gdx.graphics.getWidth()) {
+                nTankX += Gdx.graphics.getDeltaTime() * fSpriteSpeed;
+                if (fSpriteSpeed > 1) {
+                    nGas -= 1;
                 }
             }
         }
-        if (SY >= 700) {
-            SX = TankX + 30;
-            SY = TankY + 40;
+        if (nSY >= 700) {
+            nSX = nTankX + 30;
+            nSY = nTankY + 40;
             dSpeedX = 0;
             dSpeedY = 0;
-            Fire = false;
-            InAir = false;
+            bFire = false;
+            bInAir = false;
         }
-        if (Fire = true) {
+        if (bFire = true) {
             dSpeedY -= dGravity;
-            SY -= dSpeedY;
-            SX += dSpeedX;
+            nSY -= dSpeedY;
+            nSX += dSpeedX;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && InAir != true) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && bInAir != true) {
             dSpeedX = 4;
             dSpeedY = 4;
-            SY = 699;
-            Fire = true;
-            InAir = true;
+            nSY = 699;
+            bFire = true;
+            bInAir = true;
         }
         batch.begin();
         batch.setProjectionMatrix(oc.combined);
-        batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(txBack, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         btnMenu.draw(batch);
         SprBsc.draw(batch);
-        batch.draw(gasmoney, TankX, TankY - 10, dGas - 400, 10);
-        SprTank1.draw(batch);
+        batch.draw(txGasmoney, nTankX, nTankY - 10, nGas - 400, 10);
+        batch.draw(SprTank1, nTankX, nTankY, 100, 100);
         batch.end();
     }
 
