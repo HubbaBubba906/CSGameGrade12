@@ -18,14 +18,12 @@ import gdx.menu.*;
 import gdx.common.*;
 
 public class ScrMove implements Screen, InputProcessor {
-
-    /*
--------------------------------------------------------------------------------------------------------------------------------------------------------
-This Scratch is based on creating movement, working gravity and limited movement. Limited to each turn, once out you cant move.
--------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////*This is a scratch to create gravity and movement with gas*///////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Doesn't yet use sprites right.
     Button btnMenu;
-    Tank SprTank1;
+    Tank sprTank1;
     GameMenu gamMenu;
     OrthographicCamera oc;
     SpriteBatch batch;
@@ -53,7 +51,7 @@ This Scratch is based on creating movement, working gravity and limited movement
         dSpeed = 0;
         nGas = 500;
         btnMenu = new Button(100, 50, 1500, Gdx.graphics.getHeight() - 50, "MenuBut.png ");
-        SprTank1 = new Tank(nTankX, nTankY, 100, 100, "Tanks.png ");
+        sprTank1 = new Tank(nTankX, nTankY, 100, 100, "Tanks.png ");
         Gdx.input.setInputProcessor(this);
     }
 
@@ -75,7 +73,7 @@ This Scratch is based on creating movement, working gravity and limited movement
         nTankY -= dSpeed;
         batch.draw(txBack, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(txGasmoney, nTankX, nTankY - 10, nGas - 400, 10);
-        batch.draw(SprTank1, nTankX, nTankY, 100, 100);
+        batch.draw(sprTank1, nTankX, nTankY, 100, 100);
         if (nTankY >= 100) {
             if (Gdx.input.isKeyPressed(Input.Keys.A) && nTankX > 0) {
                 nTankX -= Gdx.graphics.getDeltaTime() * fSpriteSpeed;

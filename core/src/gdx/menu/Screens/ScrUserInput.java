@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -20,25 +19,26 @@ import gdx.common.*;
 
 public class ScrUserInput implements Screen, InputProcessor {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////This is going to get changed, this progect needs a full rework and as such I will not change variable names////////////////////////////
+///////////////////////*This needs to get the directions of the y-axis changed since this was originaly in a scratch elsewhere*////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+//Doesn't yet use sprites right.
     Button btnMenu;
     GameMenu gamMenu;
     OrthographicCamera oc;
     SpriteBatch batch;
-    Vector2 position = new Vector2();
-    Vector2 velocity = new Vector2();
-    Vector2 movement = new Vector2();
-    Vector2 touch = new Vector2();
-    Vector2 dir = new Vector2();
-    Vector3 temp = new Vector3();
+    boolean bFire = false;
+    int nCount = 0;
+    Vector2 vPos = new Vector2(10, 600);
+    Vector2 vVel = new Vector2(0, 0);
+    Vector3 vTempTouch = new Vector3(10, 600, 0);
+    Vector2 vTouch = new Vector2(0, 0);
+    Vector2 vDir = new Vector2();
+    float fSpeed = 4;
     Texture texture;
+    Sprite sprShot;
     Sprite sprite;
 
     float speed = 100;
-
-    OrthographicCamera camera;
 
     public ScrUserInput(GameMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
@@ -46,7 +46,6 @@ public class ScrUserInput implements Screen, InputProcessor {
 
     @Override
     public void show() {
-        camera = new OrthographicCamera();
         oc = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         oc.update();
@@ -54,38 +53,45 @@ public class ScrUserInput implements Screen, InputProcessor {
         btnMenu = new Button(100, 50, 1500, Gdx.graphics.getHeight() - 50, "MenuBut.png ");
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
-        texture = new Texture(Gdx.files.internal("Ball.png"));
+        texture = new Texture(Gdx.files.internal("S1But.png"));
+        sprShot = new Sprite(texture);
         sprite = new Sprite(texture);
-        Gdx.input.setInputProcessor(new InputAdapter() {
-            @Override
-
-            //This was for moving to the mouse x and y.
-            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                camera.unproject(temp.set(screenX, screenY, 0));
-                touch.set(temp.x, (temp.y*-1));
-                if (button == Input.Buttons.LEFT) {
-                    if (isHit(screenX, screenY, btnMenu)) {
-                        System.out.println("Scratch Menu");
-                        gamMenu.updateState(1);
-                    }
-                }
-                return true;
-            }
-        });
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1); //Yellow background.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        update(Gdx.graphics.getDeltaTime());
-        //sprite.setScale(0.1f);
-        touch.set(temp.x, (temp.y*-1)); // setting where the sprite goes
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            bFire = true;
+        }
+        if (bFire == true && sprShot.getY() <= 600) {
+            update(Gdx.graphics.getDeltaTime());
+            vVel.y -= 0.07;
+        } else {
+            bFire = false;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            if (fSpeed <= 10) {
+                fSpeed += 0.1;
+            }
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            if (fSpeed >= 1.01) {
+                fSpeed -= 0.1;
+            }
+        }
         batch.begin();
         sprite.draw(batch);
         batch.setProjectionMatrix(oc.combined);
         btnMenu.draw(batch);
         batch.end();
+    }
+
+    public void update(float deltaTime) {
+        vPos.add(vVel);
+        sprShot.setX(vPos.x);
+        sprShot.setY(vPos.y);
     }
 
     @Override
@@ -130,9 +136,26 @@ public class ScrUserInput implements Screen, InputProcessor {
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button
+    public boolean touchDown(int screenX, int screenY, int pointer, int button
     ) {
+        if (button == Input.Buttons.LEFT) {
+            if (isHit(screenX, screenY, btnMenu)) {
+                System.out.println("Scratch Menu");
+                gamMenu.updateState(1);
+            }
+        }
         return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (bFire == false) {
+            sprShot.setY(599);
+            vTempTouch = oc.unproject(new Vector3(screenX, screenY, 0));
+            vTouch.set(vTempTouch.x, vTempTouch.y);
+            vVel = vTouch.sub(vPos).nor().scl(fSpeed);
+        }
+        return true;
     }
 
     @Override
@@ -159,34 +182,5 @@ public class ScrUserInput implements Screen, InputProcessor {
         } else {
             return false;
         }
-    }
-
-    public void update(float deltaTime) {
-        position.set(sprite.getX(), sprite.getY());
-        dir.set(touch).sub(position).nor();
-        velocity.set(dir.scl(speed));
-        movement.set(velocity).scl(deltaTime);
-        if (position.dst2(touch) > movement.len2()) {
-            position.add(movement);
-        } else {
-            position.set(touch);
-        }
-        sprite.setX(position.x);
-        sprite.setY(position.y);
-        //this is the original code used,https://stackoverflow.com/questions/17694076/moving-a-point-vector-on-an-angle-libgdx
-        /*dir.set(touch).sub(position).nor();
-        velocity.set(dir).scl(speed);
-        movement.set(velocity).scl(deltaTime);
-        if (position.dst2(touch) > movement.len2()) {
-            position.add(movement);
-        } else {
-            position.set(touch);
-        }*/
-
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

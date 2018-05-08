@@ -17,12 +17,13 @@ import com.badlogic.gdx.Input;
 import gdx.menu.*;
 import gdx.common.*;
 
-public class ScrExplodeScratch implements Screen, InputProcessor {
-/*=========================================================================================================================================================
-    This scratch is based on making bullets explode on contact with the ground level. This sucks so it wont be in the final game.
- =========================================================================================================================================================*/
+public class ScrExplode implements Screen, InputProcessor {
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////*Scratch based on making shots explode*/////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Doesn't yet use sprites right.
     Button btnMenu;
-    Shot SprBsc;
+    Shot sprBsc;
     GameMenu gamMenu;
     OrthographicCamera oc;
     SpriteBatch batch;
@@ -31,7 +32,7 @@ public class ScrExplodeScratch implements Screen, InputProcessor {
     float fSpriteSpeed = 155f;
     double dSpeed = 0, dGravity = 0.1;
 
-    public ScrExplodeScratch(GameMenu _gamMenu) {  //Referencing the main class.
+    public ScrExplode(GameMenu _gamMenu) {  //Referencing the main class.
         gamMenu = _gamMenu;
     }
 
@@ -47,7 +48,7 @@ public class ScrExplodeScratch implements Screen, InputProcessor {
         nSY = -50;
         dSpeed = 0;
         btnMenu = new Button(100, 50, 1500, Gdx.graphics.getHeight() - 50, "MenuBut.png ");
-        SprBsc = new Shot(nSX, nSY, nSH, nSW, "BasicShot.png ");
+        sprBsc = new Shot(nSX, nSY, nSH, nSW, "BasicShot.png ");
         Gdx.input.setInputProcessor(this);
     }
 
@@ -74,7 +75,7 @@ public class ScrExplodeScratch implements Screen, InputProcessor {
         }
         nSY -= dSpeed;
         batch.draw(txBack, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(SprBsc, nSX, nSY, nSH, nSW);
+        batch.draw(sprBsc, nSX, nSY, nSH, nSW);
         batch.setProjectionMatrix(oc.combined);
         btnMenu.draw(batch);
         batch.end();

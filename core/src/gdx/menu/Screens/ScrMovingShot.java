@@ -18,11 +18,12 @@ import gdx.menu.*;
 import gdx.common.*;
 
 public class ScrMovingShot implements Screen, InputProcessor {
-/*=========================================================================================================================================================
-    This scratch is based on making bullets travel while being affected by gravity.
- =========================================================================================================================================================*/
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////*Scratch based on having a shot move based on gravity*//////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Doesn't yet use sprites right.
     Button btnMenu;
-    Shot SprBsc;
+    Shot sprBsc;
     GameMenu gamMenu;
     OrthographicCamera oc;
     SpriteBatch batch;
@@ -45,7 +46,7 @@ public class ScrMovingShot implements Screen, InputProcessor {
         floor = new Texture("floor.jpg");
         back = new Texture("back.jpg");
         btnMenu = new Button(100, 50, 1500, Gdx.graphics.getHeight() - 50, "MenuBut.png ");
-        SprBsc = new Shot(SX, SY, SH, SW, "BasicShot.png ");
+        sprBsc = new Shot(SX, SY, SH, SW, "BasicShot.png ");
         Gdx.input.setInputProcessor(this);
     }
 
@@ -72,7 +73,7 @@ public class ScrMovingShot implements Screen, InputProcessor {
             Fire=true;
         }
         batch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(SprBsc, SX, SY, SH, SW);
+        batch.draw(sprBsc, SX, SY, SH, SW);
         batch.setProjectionMatrix(oc.combined);
         btnMenu.draw(batch);
         batch.end();

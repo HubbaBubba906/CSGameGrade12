@@ -12,9 +12,8 @@ public class GameMenu extends Game {
     ScrScratchMenu scrScratch;
     ScrMove scrScratch1;
     ScrTurns scrScratch2;
-    ScrExplodeScratch scrScratch3;
+    ScrExplode scrScratch3;
     ScrMovingShot scrScratch4;
-    ScrVector scrScratch5;
     ScrUserInput scrScratch6;
     ScrPlay scrPlay;
     int nScreen; // 0 for menu, 1 for Scratchs
@@ -24,14 +23,11 @@ public class GameMenu extends Game {
         //Scratches are going to start at 10 and go farther, main game assests are going to be under 10.
         if (nScreen == 0) {
             setScreen(scrMenu);
-        }
-        else if (nScreen == 1) {
+        } else if (nScreen == 1) {
             setScreen(scrScratch);
-        }
-        else if (nScreen == 2) {
+        } else if (nScreen == 2) {
             setScreen(scrPlay);
-        }
-        else if (nScreen == 10) {
+        } else if (nScreen == 10) {
             setScreen(scrScratch1);
         } //Scratch screen for terrain
         else if (nScreen == 11) {
@@ -43,10 +39,7 @@ public class GameMenu extends Game {
         else if (nScreen == 13) {
             setScreen(scrScratch4);
         } //Scratch for shooting with vectors and gravity
-        else if (nScreen == 14) {
-            setScreen(scrScratch5);
-            //Scratch for user input shooting
-        } else if (nScreen == 15) {
+        else if (nScreen == 15) {
             setScreen(scrScratch6);
         } //This is a screen for humberto within our single repositiory to see if this works with push and pull
         else if (nScreen == 20) {
@@ -63,9 +56,8 @@ public class GameMenu extends Game {
         scrScratch = new ScrScratchMenu(this);
         scrScratch1 = new ScrMove(this);
         scrScratch2 = new ScrTurns(this);
-        scrScratch3 = new ScrExplodeScratch(this);
+        scrScratch3 = new ScrExplode(this);
         scrScratch4 = new ScrMovingShot(this);
-        scrScratch5 = new ScrVector(this);
         scrScratch6 = new ScrUserInput(this);
         HumbertoTest = new HumbertoTest(this);
         updateState(0);

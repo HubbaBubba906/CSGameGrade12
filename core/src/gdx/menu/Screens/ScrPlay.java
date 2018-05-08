@@ -14,14 +14,17 @@ import gdx.common.*;
 import gdx.menu.*;
 
 public class ScrPlay implements Screen, InputProcessor {
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////*Play Screen for all scratches compiled*//////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Doesn't yet use sprites right.
     Button btnMenu;
     GameMenu gamMenu;
     Texture txButtonP, txButtonT;
     OrthographicCamera oc;
     SpriteBatch batch;
-    Shot SprBsc;
-    Tank SprTank1;
+    Shot sprBsc;
+    Tank sprTank1;
     Texture txFloor, txBack, txGasmoney;
     int nTankX = 0, nTankY = 0;
     float fSpriteSpeed = 155f;
@@ -50,8 +53,8 @@ public class ScrPlay implements Screen, InputProcessor {
         dSpeed = 0;
         nGas = 500;
         btnMenu = new Button(100, 50, 1500, Gdx.graphics.getHeight() - 50, "MenuBut.png ");
-        SprTank1 = new Tank(nTankX, nTankY, 100, 100, "Tanks.png ");
-        SprBsc = new Shot(nSX, nSY = 700, nSH, nSW, "BasicShot.png ");
+        sprTank1 = new Tank(nTankX, nTankY, 100, 100, "Tanks.png ");
+        sprBsc = new Shot(nSX, nSY = 700, nSH, nSW, "BasicShot.png ");
         Gdx.input.setInputProcessor(this);
     }
 
@@ -63,7 +66,8 @@ public class ScrPlay implements Screen, InputProcessor {
         if (nTankY <= 650) { //Gravity
             dSpeed -= dGravity;
         } else if (nTankY >= 650) {
-            nTankY=650;
+            sprTank1.setY(400);
+            
         }
         if (nGas <= 400) {
             fSpriteSpeed = 0;
@@ -108,9 +112,10 @@ public class ScrPlay implements Screen, InputProcessor {
         batch.setProjectionMatrix(oc.combined);
         batch.draw(txBack, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         btnMenu.draw(batch);
-        SprBsc.draw(batch);
+        sprBsc.draw(batch);
         batch.draw(txGasmoney, nTankX, nTankY - 10, nGas - 400, 10);
-        batch.draw(SprTank1, nTankX, nTankY, 100, 100);
+        //batch.draw(SprTank1, nTankX, nTankY, 100, 100);
+        sprTank1.draw(batch);
         batch.end();
     }
 
