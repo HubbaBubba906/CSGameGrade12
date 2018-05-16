@@ -135,7 +135,7 @@ public class HumbertoTest implements Screen, InputProcessor {
         batch.setProjectionMatrix(cam.combined);
         // cam.zoom = MathUtils.clamp(cam.zoom, 0.1f, 100 / cam.viewportWidth);
         batch.end();
-       if (bGravity == true) { //Gravity /////////////////
+        if (bGravity == true) { //Gravity /////////////////
             dSpeed *= dGravity;
             dEnemySpeed *= dGravity;
         } else if (bGravity == false) {
@@ -174,7 +174,7 @@ public class HumbertoTest implements Screen, InputProcessor {
             }*/
             camX = TankX;
             camY = TankY;
-           if (nGas <= 400) {
+            if (nGas <= 400) {
                 bTurn = false;
             }
         } else if (bTurn == false) { // enemy turn /////
